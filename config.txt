@@ -1,0 +1,3 @@
+Blank
+Rotation 15
+Tint red 20
