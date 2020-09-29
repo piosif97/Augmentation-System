@@ -27,8 +27,8 @@ class MyParser(object):
     def get_number_of_lines_in_config_file(self):
         return len(self.__lines)
 
-    def get_line_of_config_file_at_position(self, position):
-        return self.__lines.element(position)
+    def get_list_of_attributes_in_line_of_config_file_at_position(self, position):
+        return self.__lines[position].replace("\n", "").split(sep=" ")
 
     def get_config_file_content(self):
         s = ""
