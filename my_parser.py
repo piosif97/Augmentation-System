@@ -1,5 +1,5 @@
 class MyParser(object):
-    ACCEPTED_AUGMENTATIONS = ["Blank", "Rotation", "Tint"]
+    ACCEPTED_AUGMENTATIONS = ["Blank", "Rotation", "Tint", "Brightness"]
     ACCEPTED_COLORS = ["red", "blue", "green", "yellow", "pink", "purple"]
 
     def __init__(self, config_file):

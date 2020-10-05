@@ -4,13 +4,16 @@ from my_parser import *
 from blank_augmentation import *
 from rotation_augmentation import *
 from tint_augmentation import *
+from brightness_augmentation import *
 import sys
 import os
 import shutil
 import cv2
+import concurrent.futures
 
 AUGMENTATION_PACKAGE_NAME = "augmentations"
 CONFIG_FILE_PATH = "config.txt"
+
 
 class Main(OnInputDirectoryReadyCallback):
     def on_input_directory_ready_callback(self, input_directory):
@@ -27,15 +30,32 @@ class Main(OnInputDirectoryReadyCallback):
             augmentation_class = globals()[list_of_attributes[0] + "Augmentation"]
             augmentation = augmentation_class(list_of_attributes[1:])
             dictionary_of_augmentations[list_of_attributes[0] + str(i)] = augmentation
+         #self.multi_threading(dictionary_of_augmentations, dictionary_of_original_images)
         for augmentation_id in dictionary_of_augmentations:
             for original_image_name in dictionary_of_original_images:
                 new_image_name = original_image_name.replace(".jpg", "") + "_" \
                                  + augmentation_id[0:len(augmentation_id) - 1] + "_" + str(count) + ".jpg"
                 count += 1
-                dictionary_of_new_images[new_image_name] = dictionary_of_augmentations[augmentation_id].\
+                dictionary_of_new_images[new_image_name] = dictionary_of_augmentations[augmentation_id]. \
                     augment_image(dictionary_of_original_images[original_image_name])
         self.write_new_images_to_output_directory(dictionary_of_new_images)
         self.__gui.display_images(self.__output_directory_path)
+
+    #def multi_threading(self, dictionary_of_augmentations, dictionary_of_original_images):
+     #   dictionary_of_new_images = {}
+      #  count = 0
+       # with concurrent.futures.ThreadPoolExecutor() as executor:
+        #    for augmentation_id in dictionary_of_augmentations:
+         #       list_of_futures = []
+          #      for original_image_name in dictionary_of_original_images:
+                    # new_image_name = original_image_name.replace(".jpg", "") + "_" \
+                    #                + augmentation_id[0:len(augmentation_id) - 1] + "_" + str(count) + ".jpg"
+                    # count += 1
+           #         f = executor.submit(dictionary_of_augmentations[augmentation_id].augment_image,
+                                #        dictionary_of_original_images[original_image_name])
+            #        list_of_futures.append(f)
+             #   for f in list_of_futures:
+              #      print(f.result())
 
     def write_new_images_to_output_directory(self, dictionary_of_new_images):
         for new_image_name in dictionary_of_new_images:

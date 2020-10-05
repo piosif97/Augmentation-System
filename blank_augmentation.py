@@ -7,5 +7,4 @@ class BlankAugmentation(Augmentation):
         print(self._list_of_parameters)
 
     def augment_image(self, original_image):
-
         return original_image

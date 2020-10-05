@@ -77,4 +77,5 @@ class Gui(object):
             labels[i].grid(row=self.__current_row, column=current_column)
             current_column += 1
             i += 1
+        print("finsihed displaying images")
 
