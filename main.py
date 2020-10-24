@@ -1,15 +1,21 @@
 from gui import *
 from on_input_directory_ready_callback import *
 from my_parser import *
+import glob
 from blank_augmentation import *
 from rotation_augmentation import *
-from tint_augmentation import *
 from brightness_augmentation import *
+from contrast_augmentation import *
+from gamma_correction_augmentation import *
+from histogram_equalization_augmentation import *
+from convolution_filter_augmentation import *
+from translation_augmentation import *
+from flipping_augmentation import *
+from scaling_augmentation import *
 import sys
 import os
 import shutil
 import cv2
-import concurrent.futures
 
 AUGMENTATION_PACKAGE_NAME = "augmentations"
 CONFIG_FILE_PATH = "config.txt"
@@ -19,7 +25,14 @@ class Main(OnInputDirectoryReadyCallback):
     def on_input_directory_ready_callback(self, input_directory):
         self.create_output_directory(input_directory + "_aug")
         count = 1
-        list_of_input_files_names = os.listdir(input_directory)
+        list_of_input_files_names = []
+        for root, dirs, files in os.walk(input_directory):
+            for name in files:
+                if name.endswith('.jpg'):
+                    list_of_input_files_names.append(name)
+            break
+        if len(list_of_input_files_names) == 0:
+            sys.exit("No images in selected directory")
         dictionary_of_original_images = {}
         dictionary_of_augmentations = {}
         dictionary_of_new_images = {}
@@ -30,7 +43,6 @@ class Main(OnInputDirectoryReadyCallback):
             augmentation_class = globals()[list_of_attributes[0] + "Augmentation"]
             augmentation = augmentation_class(list_of_attributes[1:])
             dictionary_of_augmentations[list_of_attributes[0] + str(i)] = augmentation
-         #self.multi_threading(dictionary_of_augmentations, dictionary_of_original_images)
         for augmentation_id in dictionary_of_augmentations:
             for original_image_name in dictionary_of_original_images:
                 new_image_name = original_image_name.replace(".jpg", "") + "_" \
@@ -40,22 +52,6 @@ class Main(OnInputDirectoryReadyCallback):
                     augment_image(dictionary_of_original_images[original_image_name])
         self.write_new_images_to_output_directory(dictionary_of_new_images)
         self.__gui.display_images(self.__output_directory_path)
-
-    #def multi_threading(self, dictionary_of_augmentations, dictionary_of_original_images):
-     #   dictionary_of_new_images = {}
-      #  count = 0
-       # with concurrent.futures.ThreadPoolExecutor() as executor:
-        #    for augmentation_id in dictionary_of_augmentations:
-         #       list_of_futures = []
-          #      for original_image_name in dictionary_of_original_images:
-                    # new_image_name = original_image_name.replace(".jpg", "") + "_" \
-                    #                + augmentation_id[0:len(augmentation_id) - 1] + "_" + str(count) + ".jpg"
-                    # count += 1
-           #         f = executor.submit(dictionary_of_augmentations[augmentation_id].augment_image,
-                                #        dictionary_of_original_images[original_image_name])
-            #        list_of_futures.append(f)
-             #   for f in list_of_futures:
-              #      print(f.result())
 
     def write_new_images_to_output_directory(self, dictionary_of_new_images):
         for new_image_name in dictionary_of_new_images:

@@ -1,1 +1,9 @@
 Brightness 50
+Contrast 0.5
+GammaCorrection 2.2
+HistogramEqualization
+ConvolutionFilter 3 -1 -1 -1 -1 8 -1 -1 -1 -1
+Translation 160 120
+Flipping BothDirectionsFlip
+Rotation 20
+Scaling 200 200
