@@ -16,6 +16,6 @@ class FlippingAugmentation(Augmentation):
                 augmented_image = cv2.flip(original_image, 1)
             else:
                 augmented_image = cv2.flip(original_image, -1)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(augmented_image, 'Flipping', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
+        # font = cv2.FONT_HERSHEY_SIMPLEX
+        # cv2.putText(augmented_image, 'Flipping', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
         return augmented_image

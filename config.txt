@@ -7,3 +7,4 @@ Translation 160 120
 Flipping BothDirectionsFlip
 Rotation 20
 Scaling 200 200
+Sequence Brightness 40*GammaCorrection 2.2*Translation 160 120*Flipping VerticalFlip

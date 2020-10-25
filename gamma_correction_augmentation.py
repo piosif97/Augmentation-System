@@ -16,6 +16,6 @@ class GammaCorrectionAugmentation(Augmentation):
         # the intensity of the pixels must be scaled from the range [0, 255] to [0, 1] and afterwards scaled back
         lookup_table = np.array([((i / 255) ** inverse_of_gamma) * 255 for i in np.arange(0, 256)])
         augmented_image = cv2.LUT(original_image, lookup_table)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(augmented_image, 'Gamma Correction', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
+        # font = cv2.FONT_HERSHEY_SIMPLEX
+        # cv2.putText(augmented_image, 'Gamma Correction', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
         return augmented_image

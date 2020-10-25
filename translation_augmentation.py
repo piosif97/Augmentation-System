@@ -16,5 +16,5 @@ class TranslationAugmentation(Augmentation):
         M = np.float32([[1, 0, ox_translation], [0, 1, oy_translation]])
         augmented_image = cv2.warpAffine(original_image, M, (width, height))
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(augmented_image, 'Translation', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
+        # cv2.putText(augmented_image, 'Translation', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
         return augmented_image

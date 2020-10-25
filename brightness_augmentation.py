@@ -13,6 +13,6 @@ class BrightnessAugmentation(Augmentation):
         augmented_image = np.zeros(dimensions, original_image.dtype)
         bias = int(self._list_of_parameters[0])
         augmented_image = cv2.addWeighted(original_image, 1, augmented_image, 0, bias)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(augmented_image, 'Brightness', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
+        # font = cv2.FONT_HERSHEY_SIMPLEX
+        # cv2.putText(augmented_image, 'Brightness', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
         return augmented_image

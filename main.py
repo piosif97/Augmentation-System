@@ -12,12 +12,14 @@ from convolution_filter_augmentation import *
 from translation_augmentation import *
 from flipping_augmentation import *
 from scaling_augmentation import *
+from sequence_augmentation import *
+from my_brightness_augmentation import *
 import sys
 import os
 import shutil
 import cv2
+import time
 
-AUGMENTATION_PACKAGE_NAME = "augmentations"
 CONFIG_FILE_PATH = "config.txt"
 
 
@@ -43,6 +45,7 @@ class Main(OnInputDirectoryReadyCallback):
             augmentation_class = globals()[list_of_attributes[0] + "Augmentation"]
             augmentation = augmentation_class(list_of_attributes[1:])
             dictionary_of_augmentations[list_of_attributes[0] + str(i)] = augmentation
+        # start = time.time()
         for augmentation_id in dictionary_of_augmentations:
             for original_image_name in dictionary_of_original_images:
                 new_image_name = original_image_name.replace(".jpg", "") + "_" \
@@ -51,6 +54,8 @@ class Main(OnInputDirectoryReadyCallback):
                 dictionary_of_new_images[new_image_name] = dictionary_of_augmentations[augmentation_id]. \
                     augment_image(dictionary_of_original_images[original_image_name])
         self.write_new_images_to_output_directory(dictionary_of_new_images)
+        # end = time.time()
+        # print("Time", end - start)
         self.__gui.display_images(self.__output_directory_path)
 
     def write_new_images_to_output_directory(self, dictionary_of_new_images):

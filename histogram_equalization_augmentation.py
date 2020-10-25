@@ -17,7 +17,7 @@ class HistogramEqualizationAugmentation(Augmentation):
         cv2.equalizeHist(channels[1], channels[1])
         cv2.merge(channels, hls)
         cv2.cvtColor(hls, cv2.COLOR_HLS2BGR, augmented_image)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(augmented_image, 'Histogram Equalization', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
+        # font = cv2.FONT_HERSHEY_SIMPLEX
+        # cv2.putText(augmented_image, 'Histogram Equalization', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
         return augmented_image
 

@@ -16,6 +16,6 @@ class ScalingAugmentation(Augmentation):
         new_height = int(height * oy_resize / 100)
         new_size = (new_width, new_height)
         augmented_image = cv2.resize(original_image, new_size, interpolation=cv2.INTER_CUBIC)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(augmented_image, 'Scaling', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
+        # font = cv2.FONT_HERSHEY_SIMPLEX
+        # cv2.putText(augmented_image, 'Scaling', (10, 450), font, 3, (199, 36, 177), 5, cv2.LINE_AA)
         return augmented_image

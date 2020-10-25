@@ -6,11 +6,25 @@ class MyParser(object):
     def get_configuration_file_validity(self):
         if len(self.__lines) > 0:
             for line in self.__lines:
-                if not self.is_line_valid(line.strip()):
-                    return self.__lines.index(line) + 1
+                if "Sequence" in line:
+                    if not self.is_sequence_valid(line):
+                        return self.__lines.index(line) + 1
+                else:
+                    if not self.is_line_valid(line.strip()):
+                        return self.__lines.index(line) + 1
         else:
             return -2
         return -1
+
+    def is_sequence_valid(self, line):
+        line = line.replace('\n', "")
+        line = line.replace('Sequence', '')
+        line = line[1:]
+        augmentations = line.split(sep="*")
+        for augmentation in augmentations:
+            if not self.is_line_valid(augmentation):
+                return False
+        return True
 
     def are_brightness_parameters_valid(self, parameters):
         if len(parameters) != 1:
@@ -78,6 +92,9 @@ class MyParser(object):
             return True
         return False
 
+    def are_sequence_augmentation_parameters_valid(self, parameters):
+        return True
+
     def invalid_augmentation(self, parameters):
         return False
 
@@ -91,7 +108,9 @@ class MyParser(object):
             "Translation": self.are_translation_parameters_valid,
             "Flipping": self.are_flipping_parameters_valid,
             "Rotation": self.are_rotation_parameters_valid,
-            "Scaling": self.are_scaling_parameters_valid
+            "Scaling": self.are_scaling_parameters_valid,
+            "Sequence": self.are_sequence_augmentation_parameters_valid,
+            "MyBrightness": self.are_brightness_parameters_valid
         }
         function = switcher.get(augmentation_name, self.invalid_augmentation)
         return function(augmentation_parameters)
@@ -146,7 +165,15 @@ class MyParser(object):
         return len(self.__lines)
 
     def get_list_of_attributes_in_line_of_config_file_at_position(self, position):
-        return self.__lines[position].replace("\n", "").split(sep=" ")
+        if "Sequence" in self.__lines[position]:
+            attributes = ["Sequence"]
+            aux = self.__lines[position].replace("Sequence", "")
+            aux = aux[1:]
+            aux_list = aux.replace("\n", "").split(sep="*")
+            attributes = attributes + aux_list
+            return attributes
+        else:
+            return self.__lines[position].replace("\n", "").split(sep=" ")
 
     def get_config_file_content(self):
         s = ""
